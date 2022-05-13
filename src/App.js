@@ -1,8 +1,28 @@
 import './App.css';
+import Post from './Post'
+import React, {useEffect, useState} from 'react'
+import { db } from './firebase'
 
 function App() {
+  const [posts, setPosts] = useState([
+    {
+      username:'veronica', 
+      caption:' this works', 
+      imageUrl:'https://www.freecodecamp.org/news/content/images/size/w2000/2022/03/portfolioreact.png'
+    },
+    {
+      username:'johndoe', 
+      caption:' this works', 
+      imageUrl:'https://www.freecodecamp.org/news/content/images/size/w2000/2022/03/portfolioreact.png'
+    }
+  ])
+
+  useEffect(()=> {
+
+  }, [])
+
   return (
-    <div className="App">
+    <div className="app">
       <div className='app_header'>
         <img 
           className='app_headerImage'
@@ -10,8 +30,13 @@ function App() {
           alt=""
         />
       </div>
-      <h1>Hi There</h1>
 
+      <h1>Hi There</h1>
+      {
+        posts.map(post=> (
+          <Post username={post.username} caption={post.caption} imageUrl={post.imageUrl}/>
+        ))
+      }
     </div>
   );
 }
