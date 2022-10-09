@@ -7,21 +7,24 @@ import { collection, onSnapshot } from "firebase/firestore";
 
 function App() {
   const [posts, setPosts] = useState([
-    {
-      username:'veronica', 
-      caption:' this works', 
-      imageUrl:'https://www.freecodecamp.org/news/content/images/size/w2000/2022/03/portfolioreact.png'
-    },
-    {
-      username:'johndoe', 
-      caption:' this works', 
-      imageUrl:'https://www.freecodecamp.org/news/content/images/size/w2000/2022/03/portfolioreact.png'
-    }
+    // {
+    //   username:'veronica', 
+    //   caption:' this works', 
+    //   imageUrl:'https://www.freecodecamp.org/news/content/images/size/w2000/2022/03/portfolioreact.png'
+    // },
+    // {
+    //   username:'johndoe', 
+    //   caption:' this works', 
+    //   imageUrl:'https://www.freecodecamp.org/news/content/images/size/w2000/2022/03/portfolioreact.png'
+    // }
   ])
 
   useEffect(()=> {
     onSnapshot(collection(db,"posts"), (snapshot) =>
-      setPosts(snapshot.docs.map((doc) => doc.data()))
+      setPosts(snapshot.docs.map((doc) => ({
+        id: doc.id, 
+        post:doc.data()
+      })))
    );
   }, [])
 
@@ -37,8 +40,8 @@ function App() {
 
       <h1>Hi There</h1>
       {
-        posts.map(post=> (
-          <Post username={post.username} caption={post.caption} imageUrl={post.imageUrl}/>
+        posts.map(({id, post})=> (
+          <Post key={id} username={post.username} caption={post.caption} imageUrl={post.imageUrl}/>
         ))
       }
     </div>
