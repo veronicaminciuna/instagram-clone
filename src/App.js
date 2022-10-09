@@ -2,6 +2,8 @@ import './App.css';
 import Post from './Post'
 import React, {useEffect, useState} from 'react'
 import { db } from './firebase'
+import { collection, onSnapshot } from "firebase/firestore";
+
 
 function App() {
   const [posts, setPosts] = useState([
@@ -18,7 +20,9 @@ function App() {
   ])
 
   useEffect(()=> {
-
+    onSnapshot(collection(db,"posts"), (snapshot) =>
+      setPosts(snapshot.docs.map((doc) => doc.data()))
+   );
   }, [])
 
   return (
