@@ -3,21 +3,29 @@ import Post from './Post'
 import React, {useEffect, useState} from 'react'
 import { db } from './firebase'
 import { collection, onSnapshot } from "firebase/firestore";
+import Modal from '@mui/material/Modal';
+import Box from '@mui/material/Box';
+
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
 
 
 function App() {
-  const [posts, setPosts] = useState([
-    // {
-    //   username:'veronica', 
-    //   caption:' this works', 
-    //   imageUrl:'https://www.freecodecamp.org/news/content/images/size/w2000/2022/03/portfolioreact.png'
-    // },
-    // {
-    //   username:'johndoe', 
-    //   caption:' this works', 
-    //   imageUrl:'https://www.freecodecamp.org/news/content/images/size/w2000/2022/03/portfolioreact.png'
-    // }
-  ])
+
+  const [posts, setPosts] = useState([]);
+  const [open, setOpen] = useState(false);
+
+  const handleClose = () => setOpen(false);
 
   useEffect(()=> {
     onSnapshot(collection(db,"posts"), (snapshot) =>
@@ -26,10 +34,18 @@ function App() {
         post:doc.data()
       })))
    );
-  }, [])
+  }, []);
 
   return (
     <div className="app">
+      <Modal
+       open={open}
+       onClose={handleClose}
+      >
+        <Box sx={style}>
+          <h2>I am modal</h2>
+        </Box>
+      </Modal>
       <div className='app_header'>
         <img 
           className='app_headerImage'
