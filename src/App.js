@@ -6,6 +6,7 @@ import { collection, onSnapshot } from "firebase/firestore";
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import { Input } from '@mui/material';
 
 
 const style = {
@@ -25,6 +26,9 @@ function App() {
 
   const [posts, setPosts] = useState([]);
   const [open, setOpen] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('')
+  const [username, setUsername] = useState('')
 
   const handleClose = () => setOpen(false);
 
@@ -38,7 +42,7 @@ function App() {
   }, []);
 
   const signUp = (e) => {
-
+    e.preventDefault();
   }
 
   return (
@@ -48,7 +52,33 @@ function App() {
        onClose={handleClose}
       >
         <Box sx={style}>
-          <h2>I am modal</h2>
+          <form className='app_signup'>
+          <center>
+            <img
+            className='app_headerImage'
+            src='https://instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png'
+            alt=''
+            />
+          </center>
+          <Input
+            type='text'
+            value={username}
+            onChange={(e)=> setUsername(e.target.value)}
+            />
+          <Input
+            placeholder='email'
+            type='text'
+            value={email}
+            onChange={(e)=> setEmail(e.target.value)}
+            />
+          <Input
+            placeholder='password'
+            type='password'
+            value={password}
+            onChange={(e)=> setPassword(e.target.value)}
+            />
+            <Button type='submit' onClick={signUp}>Sign Up</Button>
+          </form>
         </Box>
       </Modal>
       <div className='app_header'>
@@ -58,6 +88,7 @@ function App() {
           alt=""
         />
       </div>
+
       <Button onClick={() => setOpen(true)}>Sign Up</Button>
 
 
