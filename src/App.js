@@ -5,6 +5,7 @@ import { db } from './firebase'
 import { collection, onSnapshot } from "firebase/firestore";
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 
 
 const style = {
@@ -16,7 +17,7 @@ const style = {
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
-  p: 4,
+  p: 3,
 };
 
 
@@ -36,6 +37,10 @@ function App() {
    );
   }, []);
 
+  const signUp = (e) => {
+
+  }
+
   return (
     <div className="app">
       <Modal
@@ -53,6 +58,8 @@ function App() {
           alt=""
         />
       </div>
+      <Button onClick={() => setOpen(true)}>Sign Up</Button>
+
 
       <h1>Hi There</h1>
       {
