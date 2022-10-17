@@ -1,7 +1,7 @@
 import './App.css';
 import Post from './Post'
 import React, {useEffect, useState} from 'react'
-import { db } from './firebase'
+import { db, auth } from './firebase'
 import { collection, onSnapshot } from "firebase/firestore";
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
@@ -27,10 +27,33 @@ function App() {
   const [posts, setPosts] = useState([]);
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('')
-  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
+  const [user, setUser] = useState(null);
 
   const handleClose = () => setOpen(false);
+
+  useEffect(()=> {
+    auth.onAuthStateChanged((authUser) => {
+      if(authUser) {
+        //user is logged in
+        console.log(authUser);
+        setUser(authUser);
+      
+        if(authUser.displayName) {
+          //don't update username
+      }else {
+        //just created a new user
+        return authUser.updateProfile({
+          display: username,
+        });
+      }
+      }else {
+        //user has logged out..
+        setUser(null);
+      }
+    })
+  }, [user, username]);
 
   useEffect(()=> {
     onSnapshot(collection(db,"posts"), (snapshot) =>
@@ -41,8 +64,13 @@ function App() {
    );
   }, []);
 
-  const signUp = (e) => {
-    e.preventDefault();
+  const signUp = (event) => {
+    event.preventDefault();
+  
+
+  auth.createUserEithEmailAndPassword(email,password)
+  .catch((error)=> alert(error.message))
+
   }
 
   return (
@@ -61,6 +89,7 @@ function App() {
             />
           </center>
           <Input
+            placeholder='username'
             type='text'
             value={username}
             onChange={(e)=> setUsername(e.target.value)}

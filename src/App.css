@@ -15,6 +15,7 @@
 
 .app_signup {
   display: flex;
+  text-align: center;
   flex-direction: column;
-  
+
 }
